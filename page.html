@@ -1,0 +1,223 @@
+<!doctype html>
+<html>
+
+    <!-- WELCOME TO THE JAVASCRIPT TAKEOVER CODE!! We will put all of the instructions to make your own "Hey French Toast" bookmarket here in comments, so you know what to do! -->
+
+    <head>
+        <meta property="og:site_name" content="Javascript Takeover: Bookmarklet" />
+        <title>Javascript Takeover</title>
+
+        <link href='https://fonts.googleapis.com/css?family=Copse' rel='stylesheet' type='text/css'>
+
+        <link href='https://fonts.googleapis.com/css?family=Oswald:400,700' rel='stylesheet' type='text/css'>
+
+
+    </head>
+
+    <body>
+        <article>
+            <center>
+
+                <!-- Change the "HEY FRENCH TOAST" To your own title. -->
+
+                 <h1>HEY SPINNING THING<small>JAVASCRIPT TAKEOVER</small></h1>
+            </center>
+
+            <!-- These are the instructions for people who visit your page and want to install your bookmarklet. Change the "french toast" text to match your theme!-->
+
+            <center>
+                <p class="callout">Drag the image below into your bookmarks, then go to any website and click it to replace all (most) of the images with rainbows, and do something entirely unexpected with most of the text.</p>
+            </center>
+
+            <!-- Now we need to update the bookmarklet 'button'.  First change the alt text "HEY FRENCH TOAST" below to match your own theme.  This text will be the name of the bookmarklet when you add it to the browser.  Second, replace the Image link  ("http://mousesquad.org/files/u4/heytoast_0.png") below with a new Image URL that matches your theme.  This image holds all the code for your bookmarklet! Make sure you add a whole URL - it should begin with http:// and end with an image extension like .jpg or .png or .gif -->
+
+            <center>
+                <p>
+                    <a href='#' id="bookmarklet">
+                        <img width="400" alt="HEY SPIN" src="http://images.clipartpanda.com/rainbow-clip-art-rainbow.gif">
+                    </a>
+                </p>
+            </center>
+        </article>
+        <center>
+            <p class="callout">In case this page isn't flashing click the rainbow.</p>
+        </center>
+
+        <!-- In the spirit of the Open Web, it's always a good to let the world know where you got your code from; We gave credit to the original coder here in the footer of the page. -->
+
+        <center>
+            <footer>The bookmarklet is a hack of the <a href="http://heygirl.io/">"Hey Girl"</a> Ryan Gosling javascript bookmark thinger. Givin' credit where she's due.</footer>
+        </center>
+
+        <!-- Here's where the Javascript starts!! This first part is setting up how the bookmarklet will work and what the variables are.  You shouldn't edit this part unless you are already a pro! -->
+
+        <s id="bookmarklet-code" style="display:none">
+            var repeatCount = 0;
+            console.log(getNodes(document));
+            var elements = document.querySelectorAll("*");
+            var spinElements = [];
+            var elements = getNodes(document);
+            for (var i = 3; i < elements.length; i++) {
+                //console.log(elements[i]);
+                if (elements[i].parentNode != null) {
+                    if (elements[i].nodeType == 3 && elements[i].parentNode.className != "spin" && elements[i].parentNode.tagName.toLowerCase() != "style") {
+                        // console.log(elements[i]);
+                        if (elements[i].parentNode != null) {
+                            var chars = elements[i].textContent.split("");
+                            var j="";
+                            for (var cn = 0; cn < chars.length; cn++) {
+                                if(!(chars[cn].charCodeAt(0)==32)){
+                                    j=j+chars[cn];
+                                }else{
+                                var replacementNode = document.createElement("span");
+                                replacementNode.innerHTML = j;
+                                replacementNode.style.display = "inline-block";
+                                replacementNode.style.color = "red";
+                                replacementNode.style.color = "hsl(" + Math.random() * 360 + ",100%,50%)";
+                                replacementNode.style.transform = "rotate(" + (Math.random() * 30 - 15) + "deg)";
+                                //replacementNode.style.color ="red";
+                                elements[i].parentNode.insertBefore(replacementNode, elements[i]);
+                                spinElements = spinElements.concat([replacementNode]);
+                                j=""
+                                }
+                            }
+                            var replacementNode = document.createElement("span");
+                                replacementNode.innerHTML = j;
+                                replacementNode.style.display = "inline-block";
+                                replacementNode.style.color = "red";
+                                replacementNode.style.color = "hsl(" + Math.random() * 360 + ",100%,50%)";
+                                replacementNode.style.transform = "rotate(" + (Math.random() * 30 - 15) + "deg)";
+                                //replacementNode.style.color ="red";
+                                elements[i].parentNode.insertBefore(replacementNode, elements[i]);
+                                spinElements = spinElements.concat([replacementNode]);
+
+                        }
+                        elements[i].parentNode.removeChild(elements[i]);
+                    }
+                }
+                //console.log(elements[i].nodeType);
+            }
+            elements = spinElements;
+
+            var intId;
+
+            function getNodes(node) {
+                var list = [node];
+                if (node.hasChildNodes()) {
+                    list = [];
+                    for (var i = 0; i < node.childNodes.length; i++) {
+                        list = list.concat(getNodes(node.childNodes[i]));
+                    }
+                }
+                return list;
+            }
+            var counter = 0;
+
+            function whattorep() {
+                for (var i = 0; i < elements.length; i++) {
+                    var ce = elements[i];
+                    //console.log(ce.nodeName.toLowerCase());
+                    //if(elements[i].nodeType==1) {
+                    elements[i].style.display = "inline-block";
+                    elements[i].style.transform = "rotate(" + counter + "deg)"; //playing around with styling is sooo fun.
+                    //elements[i].style.color="hsl("+Math.random()*100+"%,100%,50%)";
+                    elements[i].style.color = "hsl(" + (counter) + ",100%,50%)";
+                    //}
+                }
+                counter += 10;
+                repeatCount += 10;
+                if (repeatCount > 359) {
+                    stoprep();
+                }
+            }
+
+            function stoprep() {
+                clearInterval(intId);
+                for (var i = 0; i < elements.length; i++) {
+                    var ce = elements[i];
+                    //if(ce.type.toLowerCase() == 'text') {
+                    //if(elements[i].nodeType==1) {
+                    ce.style.transform = ""; //playing around with styling is sooo fun.
+                    ce.style.color = ""; //playing around with styling is sooo fun.
+                    ce.style.display = "inline";
+                    ce.style.display = "inline-block";
+     
+                                ce.style.color = "hsl(" + Math.random() * 360 + ",100%,50%)";
+                                ce.style.transform = "rotate(" + (Math.random() * 30 - 15) + "deg)";
+                    //}
+                    //}
+                }
+            }
+
+            function runBookmarklet(target) {
+            counter = 0;
+            repeatCount = 0;
+                intId = setInterval(whattorep, 1);
+                
+            }
+        </s>
+
+        <script>
+            onload = function() {
+
+                var bookmarklet = document.getElementById("bookmarklet");
+                var code = document.getElementById("bookmarklet-code").textContent;
+
+                code = "(function() { " + code + "; runBookmarklet(); })();";
+                bookmarklet.setAttribute("href", "javascript:" + encodeURIComponent(code));
+
+
+                var after = document.getElementById("after");
+                var beforeHTML = document.getElementById("before").innerHTML;
+                after.innerHTML = beforeHTML;
+                runBookmarklet(after);
+            };
+        </script>
+
+    </body>
+    <!-- This is the CSS style for this page, if you want your thimble page to have a different design you can change colors, layout and font styles below!. -->
+
+    <style>
+        body {
+            background: lightgray;
+            text-align: center;
+            font-family:'Copse', Georgia;
+            font-size: 28px;
+            color: #E01F66;
+        }
+        img {
+            max-width: 100%;
+        }
+        article {
+            background-color: rgba(255, 255, 255, 1);
+            padding-top: 20px;
+            padding-bottom: 10px;
+            min-width: 250px;
+            max-width: 800px;
+            margin: 70px auto 30px;
+            border: 1px white solid;
+        }
+        h1 {
+            font-family:'goboldregular', 'oswald', sans-serif;
+            font-weight: 500;
+            color: #E01F66;
+            line-height: 1em;
+            font-size: 4rem;
+        }
+        h1 small {
+            font-family:'goboldregular', 'oswald', sans-serif;
+            font-weight: 200;
+            font-size: 0.7em;
+            color: lightgray;
+            display: block;
+            text-shadow: none;
+        }
+        footer {
+            text-align: left;
+            font-family:'Copse', Georgia;
+            font-size: 20px;
+            color: #666666;
+        }
+    </style>
+
+</html>
