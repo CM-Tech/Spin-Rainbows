@@ -1,4 +1,4 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
 
     <!-- WELCOME TO THE JAVASCRIPT TAKEOVER CODE!! We will put all of the instructions to make your own "Hey French Toast" bookmarket here in comments, so you know what to do! -->
@@ -66,9 +66,10 @@
                             var chars = elements[i].textContent.split("");
                             var j="";
                             for (var cn = 0; cn < chars.length; cn++) {
-                                if(!(chars[cn].charCodeAt(0)==32)){
-                                    j=j+chars[cn];
+                                if((chars[cn].charCodeAt(0)==32)){
+                                    //j=j+chars[cn];
                                 }else{
+                                j=j+chars[cn];
                                 var replacementNode = document.createElement("span");
                                 replacementNode.innerHTML = j;
                                 replacementNode.style.display = "inline-block";
